@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { PostService } from './post.service';
 import { PostController } from './post.controller';
-import { postProviders } from '../database/post.providers';
+import { postProviders } from '../database/db.providers';
 import { DatabaseModule } from '../database/database.module';
 
 @Module({
