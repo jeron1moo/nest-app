@@ -5,8 +5,7 @@ import { setupSwagger } from './utils/swagger';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 import * as helmet from 'helmet';
 import * as session from 'express-session';
-
-const port = process.env.PORT;
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const logger = new Logger();
@@ -14,6 +13,7 @@ async function bootstrap() {
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors();
+
   app.useGlobalFilters(new HttpExceptionFilter());
   app.use(helmet());
   app.use(
@@ -25,6 +25,9 @@ async function bootstrap() {
   );
 
   setupSwagger(app);
+  const configService = app.get(ConfigService);
+  const port = configService.get('port');
+
   await app.listen(port);
   logger.log(`App listening on port ${port}`);
 }
